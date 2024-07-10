@@ -243,6 +243,34 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Attacking"",
+            ""id"": ""20e3a3f5-5bdb-4c9a-84cb-4d0b239f3c1b"",
+            ""actions"": [
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f05c1374-f8df-491c-92b3-728104c1a157"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b3530ac3-9af6-474c-8c0d-cb8ab83f88ed"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -264,6 +292,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Jumping
         m_Jumping = asset.FindActionMap("Jumping", throwIfNotFound: true);
         m_Jumping_Jump = m_Jumping.FindAction("Jump", throwIfNotFound: true);
+        // Attacking
+        m_Attacking = asset.FindActionMap("Attacking", throwIfNotFound: true);
+        m_Attacking_Attack = m_Attacking.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -413,6 +444,52 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         }
     }
     public JumpingActions @Jumping => new JumpingActions(this);
+
+    // Attacking
+    private readonly InputActionMap m_Attacking;
+    private List<IAttackingActions> m_AttackingActionsCallbackInterfaces = new List<IAttackingActions>();
+    private readonly InputAction m_Attacking_Attack;
+    public struct AttackingActions
+    {
+        private @Controls m_Wrapper;
+        public AttackingActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Attack => m_Wrapper.m_Attacking_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Attacking; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AttackingActions set) { return set.Get(); }
+        public void AddCallbacks(IAttackingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AttackingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AttackingActionsCallbackInterfaces.Add(instance);
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+        }
+
+        private void UnregisterCallbacks(IAttackingActions instance)
+        {
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+        }
+
+        public void RemoveCallbacks(IAttackingActions instance)
+        {
+            if (m_Wrapper.m_AttackingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAttackingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AttackingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AttackingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AttackingActions @Attacking => new AttackingActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -438,5 +515,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IJumpingActions
     {
         void OnJump(InputAction.CallbackContext context);
+    }
+    public interface IAttackingActions
+    {
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

@@ -221,6 +221,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Attacking",
+            "id": "20e3a3f5-5bdb-4c9a-84cb-4d0b239f3c1b",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "PassThrough",
+                    "id": "f05c1374-f8df-491c-92b3-728104c1a157",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b3530ac3-9af6-474c-8c0d-cb8ab83f88ed",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
