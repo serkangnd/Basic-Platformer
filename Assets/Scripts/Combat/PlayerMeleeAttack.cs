@@ -44,7 +44,7 @@ public class PlayerMeleeAttack : MonoBehaviour
 
             if (_iDamageable != null)
             {
-                _iDamageable.Damage(damageAmount);
+                _iDamageable.Damage(damageAmount, transform.right);
             }
         }
     }
