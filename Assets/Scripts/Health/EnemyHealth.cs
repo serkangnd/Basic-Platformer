@@ -10,10 +10,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private ParticleSystem damageParticlesInstance;
 
+    private DamageFlash _damageFlash;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        _damageFlash = GetComponent<DamageFlash>();
+
     }
     public void Damage(float damageAmount, Vector2 attackDirection)
     {
@@ -23,10 +26,14 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         SpawnDamageParticles(attackDirection);
 
 
+
         if (currentHealth <= 0) 
         {
             Destroy(gameObject);
         }
+
+        //Spawn Damage Flash
+        _damageFlash.StartDamageFlash();
     }
 
 
