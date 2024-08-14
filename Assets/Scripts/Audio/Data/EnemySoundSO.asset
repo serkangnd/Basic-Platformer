@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474da432b67810642ba98d6169a8ca3f, type: 3}
+  m_Name: EnemySoundSO
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Hurt
+    volume: 1
+    mixer: {fileID: -8619330099101652070, guid: 378d3006841832b4385cb2de4f90ced7, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: c2c3801016a8a9a40b8827dde6f29d19, type: 3}
+    - {fileID: 8300000, guid: b7ad2b98921285b4d8297b078ae94cf2, type: 3}
+    - {fileID: 8300000, guid: 204d10cc473d0af47bd5999df832c9ec, type: 3}

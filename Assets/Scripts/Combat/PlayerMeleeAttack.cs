@@ -10,12 +10,16 @@ public class PlayerMeleeAttack : MonoBehaviour
     [SerializeField] private float attackRadius;
     [SerializeField] private LayerMask damageableLayer;
     [SerializeField] private float damageAmount;
+    private Player player;
+
 
     private RaycastHit2D[] hits;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        player = GetComponent<Player>();
+
     }
 
     private void Update()
@@ -47,6 +51,9 @@ public class PlayerMeleeAttack : MonoBehaviour
                 _iDamageable.Damage(damageAmount, transform.right);
             }
         }
+
+        //Trigger Attack Sound
+        SoundManager.PlaySound(player.soundData, "Attack", null, 1);
     }
 
     public void AnimationFinishTrigger()

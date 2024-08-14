@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D _collider;
 
-
+    [Header("Audio")]
+    public SoundSO soundData;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 7.5f;
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
     private RaycastHit2D groundHit;
     [SerializeField] private float extraHeight = 0.25f;
     [SerializeField] private LayerMask whatIsGround;
-    
+
 
     private void Awake()
     {
@@ -53,6 +54,8 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+
+
         //button just pushed
         if (UserInput.instance.controls.Jumping.Jump.WasPressedThisFrame() && IsGrounded())
         {
@@ -60,6 +63,9 @@ public class Player : MonoBehaviour
             jumpTimeCounter = jumpTime;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             _animator.SetTrigger("Jump");
+
+            //trigger jump sound
+            SoundManager.PlaySound(soundData, "Jump", null, 1);
         }
 
         //button is pressed
@@ -98,7 +104,7 @@ public class Player : MonoBehaviour
     private void Move()
     {
         TurnCheck();
-        if(moveInput > 0 || moveInput < 0)
+        if (moveInput > 0 || moveInput < 0)
         {
             _animator.SetBool("isRunning", true);
         }

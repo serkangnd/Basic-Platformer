@@ -10,6 +10,7 @@ public class DamageFlash : MonoBehaviour
     [SerializeField] private AnimationCurve _flashSpeedCurve;
 
 
+
     private SpriteRenderer _spriteRenderer;
     private Material _material;
 

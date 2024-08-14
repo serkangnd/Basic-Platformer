@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private ParticleSystem damageParticles;
+    [SerializeField] private SoundSO soundData;
+
 
     private ParticleSystem damageParticlesInstance;
 
@@ -25,7 +27,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         //Spawn particles
         SpawnDamageParticles(attackDirection);
 
-
+        
 
         if (currentHealth <= 0) 
         {
@@ -34,6 +36,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         //Spawn Damage Flash
         _damageFlash.StartDamageFlash();
+
+        //Trigger hurt sound fx
+        SoundManager.PlaySound(soundData,"Hurt", null, 1);
+
     }
 
 

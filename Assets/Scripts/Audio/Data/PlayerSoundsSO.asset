@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474da432b67810642ba98d6169a8ca3f, type: 3}
+  m_Name: PlayerSoundsSO
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Jump
+    volume: 1
+    mixer: {fileID: -8619330099101652070, guid: 378d3006841832b4385cb2de4f90ced7, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 721a771d2cc22f04c98714a7ff014e2c, type: 3}
+  - name: Attack
+    volume: 1
+    mixer: {fileID: -8619330099101652070, guid: 378d3006841832b4385cb2de4f90ced7, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 381babf7395944c4e969bc2a6eff3296, type: 3}
+    - {fileID: 8300000, guid: 41c80d3b6e94ed34680406d2597f1e3a, type: 3}
+    - {fileID: 8300000, guid: 8a26b9c870a9c4340843ebeea0feda11, type: 3}
