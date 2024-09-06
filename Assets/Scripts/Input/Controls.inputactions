@@ -249,6 +249,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Interact",
+            "id": "a8cdfd70-e88b-479a-a765-553ce05b0ede",
+            "actions": [
+                {
+                    "name": "Interaction",
+                    "type": "PassThrough",
+                    "id": "1a465183-79c3-4f57-a049-77130bf6e1ff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a3db394c-14f9-4602-9c37-fb6d3cd2885e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

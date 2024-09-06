@@ -271,6 +271,34 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Interact"",
+            ""id"": ""a8cdfd70-e88b-479a-a765-553ce05b0ede"",
+            ""actions"": [
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""1a465183-79c3-4f57-a049-77130bf6e1ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a3db394c-14f9-4602-9c37-fb6d3cd2885e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -295,6 +323,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Attacking
         m_Attacking = asset.FindActionMap("Attacking", throwIfNotFound: true);
         m_Attacking_Attack = m_Attacking.FindAction("Attack", throwIfNotFound: true);
+        // Interact
+        m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
+        m_Interact_Interaction = m_Interact.FindAction("Interaction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -490,6 +521,52 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         }
     }
     public AttackingActions @Attacking => new AttackingActions(this);
+
+    // Interact
+    private readonly InputActionMap m_Interact;
+    private List<IInteractActions> m_InteractActionsCallbackInterfaces = new List<IInteractActions>();
+    private readonly InputAction m_Interact_Interaction;
+    public struct InteractActions
+    {
+        private @Controls m_Wrapper;
+        public InteractActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interaction => m_Wrapper.m_Interact_Interaction;
+        public InputActionMap Get() { return m_Wrapper.m_Interact; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractActions set) { return set.Get(); }
+        public void AddCallbacks(IInteractActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InteractActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InteractActionsCallbackInterfaces.Add(instance);
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
+        }
+
+        private void UnregisterCallbacks(IInteractActions instance)
+        {
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
+        }
+
+        public void RemoveCallbacks(IInteractActions instance)
+        {
+            if (m_Wrapper.m_InteractActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInteractActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InteractActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InteractActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InteractActions @Interact => new InteractActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -519,5 +596,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IAttackingActions
     {
         void OnAttack(InputAction.CallbackContext context);
+    }
+    public interface IInteractActions
+    {
+        void OnInteraction(InputAction.CallbackContext context);
     }
 }

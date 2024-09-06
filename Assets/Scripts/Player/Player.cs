@@ -33,6 +33,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float extraHeight = 0.25f;
     [SerializeField] private LayerMask whatIsGround;
 
+    [Header("Player Health")]
+    private float maxHealth = 100f;
+    private float currentHealth;
+    [SerializeField] private HealthBar _healthBar;
 
     private void Awake()
     {
@@ -44,14 +48,21 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
+        currentHealth = maxHealth;
     }
 
     private void Update()
     {
         Move();
         Jump();
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            TakeDamage(10);
+        }
     }
 
+    #region Jump Functions
     private void Jump()
     {
 
@@ -99,6 +110,7 @@ public class Player : MonoBehaviour
             _animator.SetTrigger("Land");
         }
     }
+    #endregion
 
     #region Movement Functions
     private void Move()
@@ -187,4 +199,10 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    private void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        _healthBar.UpdateHealthBar(maxHealth,currentHealth);
+    }
 }
